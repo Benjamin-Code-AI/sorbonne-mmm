@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<!-- ecran de sélection souris ou tablette -->
+<head> 
+	
+<meta charset="utf-8">
+<title> Pour MMM </title>
+<link rel="icon" href="favicon.ico">
+</head>
+
+
+<body>
+<script>
+function ma_def(){
+var hauteur=screen.hight;
+var valeur;
+  if (hauteur > 1500){ valeur=1022;}
+	else if (hauteur < 511) {valeur= 255;}
+		 else {valeur= 511;}
+document.getelementbyid("ecran").innerHTML=hauteur;
+alert('resolution choisie' valeur)
+}
+</script>
+
+
+  <h1 style="text-align: center;">   Palette pour Marie-Madeleine Martinet </h1>
+  <h3 style="text-align: center;"> Intégration Web : Jean-Marie Deconinck</h3>
+  <h3 style="text-align: center;"> Édition : Françoise Deconinck-Brossard et Liliane Gallet-Blanchard</h3>
+<h1 style="text-align: center;"><i> Comment voulez-vous naviguer ?</i></h1>
+
+<form style="text-align: center;">
+
+ <input  type="button" value="&Agrave; la souris" onclick="location.href='index_s.html';">
+ <input  type="button" value="Sur une tablette" onclick="location.href='index_t.html';">
+ <input  type="button" value="Avec un t&eacute;l&eacute;phone" onclick="location.href='index_t.html';">
+
+</form>
+
+<!--img src="img/Palette.jpg"  height="1022" border="0" -->
+<!--img src="img/Palette.jpg"  height="255" border="0"  -->
+<p style="text-align: center;">
+<img src="img/Palette2.jpg" height="511" alt="Palette pour Marie-Madeleine Martinet">
+</P>
+</body>
+</html>
+
+
