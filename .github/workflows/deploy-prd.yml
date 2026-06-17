@@ -41,6 +41,9 @@ jobs:
             --exclude-glob dwsync.xml \
             --exclude-glob "*.bak" \
             --exclude-glob "*.log" \
+            --exclude-glob .gitignore \
+            --exclude-glob .gitattributes \
+            --exclude-glob mmm-dev.code-workspace \
             ./ /
           bye
           LFTP
