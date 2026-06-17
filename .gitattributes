@@ -1,0 +1,22 @@
+# Normalisation automatique des fins de ligne
+# Stockage LF dans le repo, CRLF sur checkout Windows
+* text=auto
+
+# Fichiers binaires — aucune conversion
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.pdf   binary
+*.zip   binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.eot   binary
+*.swf   binary
+*.mp4   binary
+*.webm  binary
+*.flv   binary
+*.avi   binary
+*.mov   binary

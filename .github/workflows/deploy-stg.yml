@@ -1,0 +1,37 @@
+name: Deploy → IONOS MMM STG
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # STAGING déploie TOUT (vidéos comprises) pour permettre une recette
+      # visuelle complète. L'exclusion des vidéos > 100 Mo n'a lieu qu'en PRD.
+      - name: Deploy via SFTP (lftp)
+        env:
+          SFTP_HOST: ${{ secrets.FTP_HOST }}
+          SFTP_USER: ${{ secrets.FTP_USER_MMM_STG }}
+          SFTP_PASS: ${{ secrets.FTP_PASSWORD_MMM_STG }}
+        run: |
+          sudo apt-get install -y lftp
+          lftp -u "${SFTP_USER},${SFTP_PASS}" sftp://${SFTP_HOST} << 'LFTP'
+          set sftp:auto-confirm yes
+          set net:timeout 60
+          mirror --reverse --verbose=1 \
+            --exclude-glob .git \
+            --exclude-glob .github \
+            --exclude-glob _notes \
+            --exclude-glob dwsync.xml \
+            --exclude-glob "*.bak" \
+            --exclude-glob "*.log" \
+            ./ /
+          bye
+          LFTP

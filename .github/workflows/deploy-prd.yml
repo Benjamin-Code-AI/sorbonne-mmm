@@ -1,0 +1,46 @@
+name: Deploy → IONOS MMM PRD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Spécificité MMM : on retire les vidéos > 100 Mo du checkout éphémère
+      # du runner AVANT le mirror. Le dépôt Git n'est pas modifié : ces fichiers
+      # restent versionnés, ils ne sont simplement pas téléversés sur IONOS.
+      - name: Exclure les vidéos > 100 Mo (déploiement uniquement)
+        run: |
+          find . -type f -size +100M \
+            \( -iname '*.mp4' -o -iname '*.mov' -o -iname '*.avi' \
+               -o -iname '*.mkv' -o -iname '*.webm' -o -iname '*.m4v' \
+               -o -iname '*.flv' \) \
+            -print -delete
+
+      - name: Deploy via SFTP (lftp)
+        env:
+          SFTP_HOST: ${{ secrets.FTP_HOST }}
+          SFTP_USER: ${{ secrets.FTP_USER_MMM_PRD }}
+          SFTP_PASS: ${{ secrets.FTP_PASSWORD_MMM_PRD }}
+        run: |
+          sudo apt-get install -y lftp
+          lftp -u "${SFTP_USER},${SFTP_PASS}" sftp://${SFTP_HOST} << 'LFTP'
+          set sftp:auto-confirm yes
+          set net:timeout 60
+          mirror --reverse --verbose=1 \
+            --exclude-glob .git \
+            --exclude-glob .github \
+            --exclude-glob _notes \
+            --exclude-glob dwsync.xml \
+            --exclude-glob "*.bak" \
+            --exclude-glob "*.log" \
+            ./ /
+          bye
+          LFTP

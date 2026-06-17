@@ -1,0 +1,18 @@
+# --- Dossiers de travail ---
+_notes/
+
+# --- Fichiers de synchronisation Dreamweaver ---
+dwsync.xml
+
+# --- Sauvegardes et journaux ---
+*.bak
+*.log
+
+# --- Artefacts système (Windows / macOS) ---
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# NB : les vidéos lourdes NE sont PAS ignorées ici.
+# Elles restent versionnées dans le dépôt ; leur exclusion
+# concerne uniquement le déploiement (cf. workflows GitHub Actions).
